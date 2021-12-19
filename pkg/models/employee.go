@@ -7,9 +7,13 @@ type Employee struct {
 }
 
 func (e Employee) Validate() error {
-	return validation.ValidateStruct(&e,
+	return validation.ValidateStruct(&e, e.ValidateFieldRules()...)
+}
+
+func (e *Employee) ValidateFieldRules() []*validation.FieldRules {
+	return []*validation.FieldRules{
 		validation.Field(&e.Name, validation.Required),
-	)
+	}
 }
 
 type Manager struct {
@@ -18,8 +22,12 @@ type Manager struct {
 }
 
 func (m Manager) Validate() error {
-	return validation.ValidateStruct(&m,
+	return validation.ValidateStruct(&m, m.ValidateFieldRules()...)
+}
+
+func (m *Manager) ValidateFieldRules() []*validation.FieldRules {
+	return []*validation.FieldRules{
 		validation.Field(&m.Employee),
 		validation.Field(&m.Level, validation.Required),
-	)
+	}
 }
